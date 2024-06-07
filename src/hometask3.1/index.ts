@@ -118,6 +118,10 @@ class Group {
     return this._status;
   }
 
+  set status(status: string) {
+    this._status = status;
+  }
+
   constructor(directionName: string, levelName: string, status: string) {
     this._directionName = directionName;
     this._levelName = levelName;
@@ -134,10 +138,6 @@ class Group {
 
   removeStudent(student: Student): void {
     this._students = this._students.filter(s => s !== student);
-  }
-
-  setStatus(status: string): void {
-    this._status = status;
   }
 
   showPerformance(): Student[] {
