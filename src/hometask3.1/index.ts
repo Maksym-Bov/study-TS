@@ -1,188 +1,204 @@
+type Lecturer = {
+  name: string;
+  surname: string;
+  position: string;
+  company: string;
+  experience: number;
+  courses: string[];
+  contacts: string[];
+};
 class School {
-    // implement 'add area', 'remove area', 'add lecturer', and 'remove lecturer' methods
-    private _areas: string[] = [];
-    private _lecturers: string[] = []; // Name, surname, position, company, experience, courses, contacts
+  // implement 'add area', 'remove area', 'add lecturer', and 'remove lecturer' methods
+  _areas: string[] = [];
+  _lecturers: Lecturer[] = []; // Name, surname, position, company, experience, courses, contacts
 
-    get areas(): string[] {
-        return this._areas;
-    }
+  get areas(): string[] {
+    return this._areas;
+  }
 
-    get lecturers(): string[] {
-        return this._lecturers;
-    }
+  get lecturers(): Lecturer[] {
+    return this._lecturers;
+  }
 
-    addArea(area: string): void {
-        this._areas.push(area);
-    }
+  addArea(area: string): void {
+    this._areas.push(area);
+  }
 
-    removeArea(area: string): void {
-        this._areas = this._areas.filter(a => a !== area);
-    }
+  removeArea(area: string): void {
+    this._areas = this._areas.filter(a => a !== area);
+  }
 
-    addLecturer(lecturer: string): void {
-        this._lecturers.push(lecturer);
-    }
+  addLecturer(lecturer: Lecturer): void {
+    this._lecturers.push(lecturer);
+  }
 
-    removeLecturer(lecturer: string): void {
-        this._lecturers = this._lecturers.filter(l => l !== lecturer);
-    }
+  removeLecturer(lecturer: Lecturer): void {
+    this._lecturers = this._lecturers.filter(l => l !== lecturer);
+  }
 }
 
 class Area {
-    // implement getters for fields and 'add/remove level' methods
-    private _levels: string[] = [];
-    private _name: string;
+  // implement getters for fields and 'add/remove level' methods
+  _levels: string[] = [];
+  _name: string;
 
-    constructor(name: string) {
-        this._name = name;
-    }
+  get levels(): string[] {
+    return this._levels;
+  }
 
-    get levels(): string[] {
-        return this._levels;
-    }
+  get name(): string {
+    return this._name;
+  }
 
-    get name(): string {
-        return this._name;
-    }
+  constructor(name: string) {
+    this._name = name;
+  }
 
-    addLevel(level: string): void {
-        this._levels.push(level);
-    }
+  addLevel(level: string): void {
+    this._levels.push(level);
+  }
 
-    removeLevel(level: string): void {
-        this._levels = this._levels.filter(l => l !== level);
-    }
+  removeLevel(level: string): void {
+    this._levels = this._levels.filter(l => l !== level);
+  }
 }
 
 class Level {
-    private _groups: string[] = [];
-    private _name: string;
-    private _description: string;
+  _groups: string[] = [];
+  _name: string;
+  _description: string;
 
-    constructor(name: string, description: string) {
-        this._name = name;
-        this._description = description;
-    }
+  get groups(): string[] {
+    return this._groups;
+  }
 
-    get groups(): string[] {
-        return this._groups;
-    }
+  get name(): string {
+    return this._name;
+  }
 
-    get name(): string {
-        return this._name;
-    }
+  get description(): string {
+    return this._description;
+  }
 
-    get description(): string {
-        return this._description;
-    }
+  constructor(name: string, description: string) {
+    this._name = name;
+    this._description = description;
+  }
 
-    addGroup(group: string): void {
-        this._groups.push(group);
-    }
+  addGroup(group: string): void {
+    this._groups.push(group);
+  }
 
-    removeGroup(group: string): void {
-        this._groups = this._groups.filter(g => g !== group);
-    }
+  removeGroup(group: string): void {
+    this._groups = this._groups.filter(g => g !== group);
+  }
 }
 
 class Group {
-    // implement getters for fields and 'add/remove student' and 'set status' methods
-    private _areas: string[] = [];
-    private _status: string;
-    private _students: Student[] = []; // Array of Student instances
-    private _directionName: string;
-    private _levelName: string;
+  // implement getters for fields and 'add/remove student' and 'set status' methods
+  _areas: string[] = [];
+  _status: string;
+  _students: Student[] = []; // Array of Student instances
+  _directionName: string;
+  _levelName: string;
 
-    constructor(directionName: string, levelName: string, status: string) {
-        this._directionName = directionName;
-        this._levelName = levelName;
-        this._status = status;
-    }
+  get directionName(): string {
+    return this._directionName;
+  }
 
-    get directionName(): string {
-        return this._directionName;
-    }
+  get levelName(): string {
+    return this._levelName;
+  }
 
-    get levelName(): string {
-        return this._levelName;
-    }
+  get students(): Student[] {
+    return this._students;
+  }
 
-    get students(): Student[] {
-        return this._students;
-    }
+  get status(): string {
+    return this._status;
+  }
 
-    get status(): string {
-        return this._status;
-    }
+  constructor(directionName: string, levelName: string, status: string) {
+    this._directionName = directionName;
+    this._levelName = levelName;
+    this._status = status;
+  }
 
-    addArea(area: string): void {
-        this._areas.push(area);
-    }
+  addArea(area: string): void {
+    this._areas.push(area);
+  }
 
-    addStudent(student: Student): void {
-        this._students.push(student);
-    }
+  addStudent(student: Student): void {
+    this._students.push(student);
+  }
 
-    removeStudent(student: Student): void {
-        this._students = this._students.filter(s => s !== student);
-    }
+  removeStudent(student: Student): void {
+    this._students = this._students.filter(s => s !== student);
+  }
 
-    setStatus(status: string): void {
-        this._status = status;
-    }
+  setStatus(status: string): void {
+    this._status = status;
+  }
 
-    showPerformance(): Student[] {
-        return this._students.toSorted((a, b) => b.getPerformanceRating() - a.getPerformanceRating());
-    }
+  showPerformance(): Student[] {
+    return this._students.toSorted((a, b) => b.getPerformanceRating() - a.getPerformanceRating());
+  }
 
-    getSortedStudents(): Student[] {
-        return this._students.toSorted((a, b) => a.fullName.localeCompare(b.fullName));
-    }
+  getSortedStudents(): Student[] {
+    return this._students.toSorted((a, b) => a.fullName.localeCompare(b.fullName));
+  }
 }
 
+type Grade = {
+  ['workName']: number;
+};
+type Visit = {
+  ['lesson']: boolean;
+};
 class Student {
-    // implement 'set grade' and 'set visit' methods
+  // implement 'set grade' and 'set visit' methods
+  _firstName: string;
+  _lastName: string;
+  _birthYear: number;
+  _grades: Grade[] = []; // workName: mark
+  _visits: Visit[] = []; // lesson: present
 
-    private _firstName: string;
-    private _lastName: string;
-    private _birthYear: number;
-    private _grades: number[] = []; // workName: mark
-    private _visits: boolean[] = []; // lesson: present
+  get fullName(): string {
+    return `${this._lastName} ${this._firstName}`;
+  }
 
-    constructor(firstName: string, lastName: string, birthYear: number) {
-        this._firstName = firstName;
-        this._lastName = lastName;
-        this._birthYear = birthYear;
-    }
+  set fullName(value: string) {
+    [this._lastName, this._firstName] = value.split(' ');
+  }
 
-    get fullName(): string {
-        return `${this._lastName} ${this._firstName}`;
-    }
+  get age(): number {
+    return new Date().getFullYear() - this._birthYear;
+  }
 
-    set fullName(value: string) {
-        [this._lastName, this._firstName] = value.split(' ');
-    }
+  constructor(firstName: string, lastName: string, birthYear: number) {
+    this._firstName = firstName;
+    this._lastName = lastName;
+    this._birthYear = birthYear;
+  }
 
-    get age(): number {
-        return new Date().getFullYear() - this._birthYear;
-    }
+  setGrade(grade: Grade): void {
+    this._grades.push(grade);
+  }
 
-    setGrade(mark: number): void {
-        this._grades.push(mark);
-    }
+  setVisit(visit: Visit): void {
+    this._visits.push(visit);
+  }
 
-    setVisit(present: boolean): void {
-        this._visits.push(present);
-    }
+  getPerformanceRating(): number {
+    const gradeValues: Grade[] = this._grades;
 
-    getPerformanceRating(): number {
-        const gradeValues: number[] = this._grades;
+    if (!gradeValues.length) return 0;
 
-        if (!gradeValues.length) return 0;
+    const averageGrade: number =
+      gradeValues.reduce((sum: number, grade: Grade) => sum + grade.workName, 0) / gradeValues.length;
+    const attendancePercentage: number =
+      (this._visits.filter((present: Visit) => present.lesson).length / this._visits.length) * 100;
 
-        const averageGrade: number = gradeValues.reduce((sum, grade) => sum + grade, 0) / gradeValues.length;
-        const attendancePercentage: number = (this._visits.filter(present => present).length / this._visits.length) * 100;
-
-        return (averageGrade + attendancePercentage) / 2;
-    }
+    return (averageGrade + attendancePercentage) / 2;
+  }
 }
