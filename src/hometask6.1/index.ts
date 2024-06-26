@@ -27,9 +27,9 @@ interface IObjectSixth extends IObjectFifth{
 }
 
 //Напишіть функцію, яка отримує об'єкт з індексною сигнатурою і перевіряє, чи відповідають значення певних ключів певним критеріям (наприклад, чи всі значення є числами).
-function functionObject(obj: IObject){
+function functionObject(obj: IObjectFifth){
     for (let key in obj){
-        if (typeof obj[key] !== 'number' && typeof obj[key] !== 'string'){
+        if (typeof obj[key] !== 'number'){
             return false;
         }
     }
