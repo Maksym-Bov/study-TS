@@ -9,6 +9,9 @@ abstract class Figure{
 
     abstract calculateArea(): number;
 }
+interface Printable{
+    print(): void;
+}
 
 class Circle extends Figure{
     private readonly radius: number;
@@ -23,7 +26,7 @@ class Circle extends Figure{
     }
 }
 
-class Square extends Figure{
+class Square extends Figure implements Printable{
     private readonly side: number;
 
     constructor(color: string, side: number) {
@@ -55,7 +58,7 @@ class Triangle extends Figure{
     }
 }
 
-class Rectangle extends Figure{
+class Rectangle extends Figure implements Printable{
     private readonly length: number;
     private readonly width: number;
 
