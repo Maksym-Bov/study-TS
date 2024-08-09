@@ -17,7 +17,8 @@ interface INote {
     content: string;
     creationDate: Date;
     isCompleted: boolean;
-    update: (payload: INoteUpdate, confirm?: boolean) => void;
+    update(payload: INoteUpdate, confirm: boolean): void;
+    update(payload: INoteUpdate): void;
     completed: () => void;
 }
 interface ISearch {
@@ -88,6 +89,7 @@ abstract class BaseNote implements INote {
     }
 
     public abstract update(payload: INoteUpdate, confirm?: boolean): void;
+
     public completed(): void {
         this.isCompleted = true;
     }
