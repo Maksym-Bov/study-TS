@@ -37,7 +37,6 @@ interface FilterOptions {
     awardFilter?: ValueFilter<string>;
 }
 
-// Клас для фільтрованого списку фільмів
 class MovieList implements FilterableList<Movie> {
     items: Movie[] = [];
 
