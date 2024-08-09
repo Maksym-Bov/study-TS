@@ -1,111 +1,85 @@
-enum GridFilterTypeEnum {
-    Text = 'text',
-    Number = 'number',
-    Date = 'date',
-    DateRange = 'dateRange',
-    NumberRange = 'numberRange',
-}
-type GridFilterValue<T> = {
-    type: GridFilterTypeEnum;
-    filter: Extract<T, string | number>;
-    filterTo?: Extract<T, string | number>;
-};
-
-type GridFilterSetValues<T> = {
-    values: T[];
-};
-type Award = string;
-interface IMovie{
+interface Movie {
     title: string;
     year: number;
     rating: number;
-    listAward: Award[];
-}
-interface IMovieCategory{
-    nameCategoryMovie: string;
-    movies: IMovie[];
-}
-interface IFilterMatch {
-    filter: string;
+    awards: string[];
 }
 
-interface IFilterRange {
-    filter: number;
-    filterTo: number;
+interface Category {
+    name: string;
+    listMovies: Movie[];
 }
 
-interface IFilterValue {
-    values: string[];
+
+interface Filter<T> {
+    filter: T;
 }
 
-type Filter =
-    | GridFilterValue<string | number>
-    | GridFilterSetValues<string | number>;
-interface IMovieList {
-    movies: IMovie[];
-    filters: Filter[];
-    applySearchValue(searchValue: string): IMovie[];
-    applyFiltersValue(filters: Filter[]): IMovie[];
+
+interface RangeFilter<T> extends Filter<T> {
+    filterTo: T;
 }
 
-interface ICategoryList {
-    categories: IMovieCategory[];
-    filters: Filter[];
-    applySearchValue(searchValue: string): IMovieCategory[];
+interface ValueFilter<T> {
+    values: T[];
 }
 
-class MovieList {
-    public movies: IMovie[] = [];
-    public filters: Filter[] = [];
+interface FilterableList<T> {
+    items: T[];
+    applySearchValue(searchValue: string): void;
+    applyFilters(filters: FilterOptions): void;
+}
 
-    applySearchValue(searchValue: string): IMovie[] {
-        return this.movies.filter(movie =>
-            movie.title.toLowerCase().includes(searchValue.toLowerCase())
+
+interface FilterOptions {
+    yearFilter?: RangeFilter<number>;
+    ratingFilter?: RangeFilter<number>;
+    awardFilter?: ValueFilter<string>;
+}
+
+// Клас для фільтрованого списку фільмів
+class MovieList implements FilterableList<Movie> {
+    items: Movie[] = [];
+
+    applySearchValue(searchValue: string): void {
+        this.items = this.items.filter(movie =>
+            movie.title.includes(searchValue)
         );
     }
 
-    applyFiltersValue(filters: Filter[]): IMovie[] {
-        let filteredMovies = this.movies;
+    applyFilters(filters: FilterOptions): void {
+        if (filters.yearFilter) {
+            const { filter, filterTo } = filters.yearFilter;
+            this.items = this.items.filter(movie =>
+                movie.year >= filter &&
+                movie.year <= filterTo
+            );
+        }
 
-        filters.forEach(filter => {
-            switch (filter.type) {
-                case GridFilterTypeEnum.Text:
-                    filteredMovies = filteredMovies.filter(movie =>
-                        movie.title.toLowerCase().includes((filter.filter as string).toLowerCase())
-                    );
-                    break;
-                case GridFilterTypeEnum.Number:
-                    filteredMovies = filteredMovies.filter(movie =>
-                        movie.rating === filter.filter
-                    );
-                    break;
-                case GridFilterTypeEnum.NumberRange:
-                    filteredMovies = filteredMovies.filter(movie =>
-                        movie.year >= (filter.filter as number) &&
-                        movie.year <= (filter.filterTo as number)
-                    );
-                    break;
-                case GridFilterTypeEnum.DateRange:
-                    filteredMovies = filteredMovies.filter(movies =>
-                        new Date(movies.awards[0]).getTime() >= new Date(filter.filter as string).getTime() &&
-                        new Date(this.movies.awards[0]).getTime() <= new Date(filter.filterTo as string).getTime()
-                    );
-                    break;
-                default:
-                    break;
-            }
-        });
+        if (filters.ratingFilter) {
+            const { filter, filterTo } = filters.ratingFilter;
+            this.items = this.items.filter(movie =>
+                movie.rating >= filter &&
+                movie.rating <= filterTo
+            );
+        }
 
-        return filteredMovies;
+        if (filters.awardFilter) {
+            this.items = this.items.filter(movie =>
+                filters.awardFilter!.values.some(award => movie.awards.includes(award))
+            );
+        }
     }
 }
 
-class CategoryList {
-    public categories: IMovieCategory[] = [];
-    public filters: Filter[] = [];
+class CategoryList implements FilterableList<Category> {
+    items: Category[] = [];
 
-    applySearchValue(searchValue: string): IMovieCategory[] {
-        return this.categories.filter(category =>
-            category.name.toLowerCase().includes(searchValue.toLowerCase())
+    applySearchValue(searchValue: string): void {
+        this.items = this.items.filter(category =>
+            category.name.includes(searchValue)
         );
     }
+    applyFilters(filters: FilterOptions): void {
+    }
+}
